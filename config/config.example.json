@@ -1,4 +1,5 @@
 {
 	"token": "BOT_TOKEN",
-	"prefix": "hy!"
+	"prefix": "hy!",
+	"fontsDir": "YOUR_FONTS_DIR"
 }
