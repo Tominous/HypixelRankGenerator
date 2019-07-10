@@ -1,5 +1,4 @@
 from discord.ext import commands
-from PIL import Image, ImageDraw, ImageFont
 
 import discord
 import json
@@ -22,7 +21,7 @@ bot.remove_command("help")
 logging.basicConfig(level=logging.INFO)
 
 # List of Cogs
-cogs = ['cogs.basic']
+cogs = ['cogs.basic', 'cogs.generator']
 
 
 @bot.event
