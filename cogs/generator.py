@@ -61,8 +61,6 @@ class Generator(commands.Cog):
                     currentRank = self.ranks[arg]
                 except Exception as e:
                     print(e)
-                    d = ImageDraw.Draw(img)
-                    d.text((7, 5), f"{arg}", font=fnt, fill=color)
 
                 if currentRank != None:
                     for key in currentRank:
@@ -70,15 +68,8 @@ class Generator(commands.Cog):
                         d.text((key['pos'][0], key['pos'][1]), f"{key['text']}",
                                font=fnt, fill=(key['color'][0], key['color'][1], key['color'][2]))
                 else:
-                    # Delete the old message
-                    await message.delete()
-
-                    # Create an embed
-                    embed = discord.Embed(colour=discord.Color.red(
-                    ), title=f"Error!", description="An unknown error occured while generating your rank!")
-
-                    # Send a message
-                    return await ctx.send(embed=embed)
+                    d = ImageDraw.Draw(img)
+                    d.text((7, 5), f"{arg}", font=fnt, fill=color)
             else:
                 # Delete the old message
                 await message.delete()
