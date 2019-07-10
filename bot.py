@@ -48,6 +48,6 @@ async def on_ready():
             print(f"Error while loading cogs: {e}")
 
     # Change presnce
-    await bot.change_presence(activity=discord.Game(name=f'Providing utilities for {members:,d} users | {prefix} help'))
+    await bot.change_presence(activity=discord.Game(name=f'Providing rank images for {members:,d} users | {prefix} help'))
 
 bot.run(config['token'])
