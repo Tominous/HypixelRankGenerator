@@ -57,13 +57,53 @@ class Generator(commands.Cog):
                         './fonts/Minecraftia-Regular.ttf', 15)
                     d = ImageDraw.Draw(img)
                     d.text((7, 5), f"[MVP", font=fnt, fill=color)
-                    d.text((45, 4), f"+", font=fnt, fill=(255, 77, 77))
+                    d.text((46, 3), f"+", font=fnt, fill=(255, 77, 77))
                     d.text((55, 5), f"]", font=fnt, fill=color)
                 else:
-                    fnt = ImageFont.truetype(
-                        './fonts/Minecraftia-Regular.ttf', 15)
-                    d = ImageDraw.Draw(img)
-                    d.text((7, 5), f"{arg}", font=fnt, fill=color)
+                    if arg == '[MVP++]':
+                        color = (255, 255, 0)
+                        # Write text to the image we created
+                        fnt = ImageFont.truetype(
+                            './fonts/Minecraftia-Regular.ttf', 15)
+                        d = ImageDraw.Draw(img)
+                        d.text((7, 5), f"[MVP", font=fnt, fill=color)
+                        d.text((46, 3), f"++", font=fnt, fill=(255, 77, 77))
+                        d.text((65, 5), f"]", font=fnt, fill=color)
+                    else:
+                        if arg == '[VIP+]':
+                            color = (120, 187, 55)
+                            # Write text to the image we created
+                            fnt = ImageFont.truetype(
+                                './fonts/Minecraftia-Regular.ttf', 15)
+                            d = ImageDraw.Draw(img)
+                            d.text((7, 5), f"[VIP", font=fnt, fill=color)
+                            d.text((46, 3), f"+", font=fnt,
+                                   fill=(255, 255, 255))
+                            d.text((55, 5), f"]", font=fnt, fill=color)
+                        else:
+                            if arg == '[VIP]':
+                                color = (120, 187, 55)
+                                # Write text to the image we created
+                                fnt = ImageFont.truetype(
+                                    './fonts/Minecraftia-Regular.ttf', 15)
+                                d = ImageDraw.Draw(img)
+                                d.text((7, 5), f"[VIP]",
+                                       font=fnt, fill=color)
+                            else:
+                                if arg == '[MVP]':
+                                    color = (0, 255, 255)
+                                    # Write text to the image we created
+                                    fnt = ImageFont.truetype(
+                                        './fonts/Minecraftia-Regular.ttf', 15)
+                                    d = ImageDraw.Draw(img)
+                                    d.text((7, 5), f"[MVP]",
+                                           font=fnt, fill=color)
+                                else:
+                                    fnt = ImageFont.truetype(
+                                        './fonts/Minecraftia-Regular.ttf', 15)
+                                    d = ImageDraw.Draw(img)
+                                    d.text((7, 5), f"{arg}",
+                                           font=fnt, fill=color)
             else:
                 # Delete the old message
                 await message.delete()
