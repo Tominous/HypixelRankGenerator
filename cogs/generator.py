@@ -14,9 +14,13 @@ class Generator(commands.Cog):
         # Load the config
         config = json.load(open('config/config.json'))
 
+        # Load the ranks info
+        ranks = json.load(open('config/ranks.json'))
+
         # Set variables 'bot' and 'config'
         self.bot = bot
         self.config = config
+        self.ranks = ranks
 
     # Define the generate command
     @commands.command(
@@ -50,60 +54,31 @@ class Generator(commands.Cog):
              # Font Check
             if path.exists('./fonts/Minecraftia-Regular.ttf'):
                 color = (255, 255, 0)
-                if arg == '[MVP+]':
-                    color = (0, 255, 255)
-                    # Write text to the image we created
-                    fnt = ImageFont.truetype(
-                        './fonts/Minecraftia-Regular.ttf', 15)
+                fnt = ImageFont.truetype('./fonts/Minecraftia-Regular.ttf', 15)
+                currentRank = None
+
+                try:
+                    currentRank = self.ranks[arg]
+                except Exception as e:
+                    print(e)
                     d = ImageDraw.Draw(img)
-                    d.text((7, 5), f"[MVP", font=fnt, fill=color)
-                    d.text((46, 3), f"+", font=fnt, fill=(255, 77, 77))
-                    d.text((55, 5), f"]", font=fnt, fill=color)
-                else:
-                    if arg == '[MVP++]':
-                        color = (255, 255, 0)
-                        # Write text to the image we created
-                        fnt = ImageFont.truetype(
-                            './fonts/Minecraftia-Regular.ttf', 15)
+                    d.text((7, 5), f"{arg}", font=fnt, fill=color)
+
+                if currentRank != None:
+                    for key in currentRank:
                         d = ImageDraw.Draw(img)
-                        d.text((7, 5), f"[MVP", font=fnt, fill=color)
-                        d.text((46, 3), f"++", font=fnt, fill=(255, 77, 77))
-                        d.text((65, 5), f"]", font=fnt, fill=color)
-                    else:
-                        if arg == '[VIP+]':
-                            color = (120, 187, 55)
-                            # Write text to the image we created
-                            fnt = ImageFont.truetype(
-                                './fonts/Minecraftia-Regular.ttf', 15)
-                            d = ImageDraw.Draw(img)
-                            d.text((7, 5), f"[VIP", font=fnt, fill=color)
-                            d.text((46, 3), f"+", font=fnt,
-                                   fill=(255, 255, 255))
-                            d.text((55, 5), f"]", font=fnt, fill=color)
-                        else:
-                            if arg == '[VIP]':
-                                color = (120, 187, 55)
-                                # Write text to the image we created
-                                fnt = ImageFont.truetype(
-                                    './fonts/Minecraftia-Regular.ttf', 15)
-                                d = ImageDraw.Draw(img)
-                                d.text((7, 5), f"[VIP]",
-                                       font=fnt, fill=color)
-                            else:
-                                if arg == '[MVP]':
-                                    color = (0, 255, 255)
-                                    # Write text to the image we created
-                                    fnt = ImageFont.truetype(
-                                        './fonts/Minecraftia-Regular.ttf', 15)
-                                    d = ImageDraw.Draw(img)
-                                    d.text((7, 5), f"[MVP]",
-                                           font=fnt, fill=color)
-                                else:
-                                    fnt = ImageFont.truetype(
-                                        './fonts/Minecraftia-Regular.ttf', 15)
-                                    d = ImageDraw.Draw(img)
-                                    d.text((7, 5), f"{arg}",
-                                           font=fnt, fill=color)
+                        d.text((key['pos'][0], key['pos'][1]), f"{key['text']}",
+                               font=fnt, fill=(key['color'][0], key['color'][1], key['color'][2]))
+                else:
+                    # Delete the old message
+                    await message.delete()
+
+                    # Create an embed
+                    embed = discord.Embed(colour=discord.Color.red(
+                    ), title=f"Error!", description="An unknown error occured while generating your rank!")
+
+                    # Send a message
+                    return await ctx.send(embed=embed)
             else:
                 # Delete the old message
                 await message.delete()
@@ -152,6 +127,7 @@ class Generator(commands.Cog):
             # Send a message
             return await ctx.send(embed=embed)
         else:
+            print(err)
             # Create an embed
             embed = discord.Embed(colour=discord.Color.red(
             ), title=f"Error!", description=f"An unknown error occured!\n{err}")
