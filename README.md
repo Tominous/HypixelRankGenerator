@@ -8,4 +8,5 @@ The bot uses PIL to generate an image and draw text to that image, once it's dra
 
 ## Credits
 [ConorTheDev](https://conorthedev.me) - Development of the bot
+
 [GamingGeekHD](https://twitter.com/GamingGeekHD) - The idea
