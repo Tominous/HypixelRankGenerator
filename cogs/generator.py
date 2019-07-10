@@ -24,11 +24,11 @@ class Generator(commands.Cog):
 
     # Define the generate command
     @commands.command(
-        name='generate',
+        name='rankgenerate',
         description='Generates a rank',
-        aliases=['gen']
+        aliases=['rgen']
     )
-    async def generate_command(self, ctx, arg: str):
+    async def rgenerate_command(self, ctx, arg: str):
         # Tell the user that we are generating the image
         message: discord.Message = await ctx.send(':arrows_counterclockwise: **Generating your rank...**')
 
@@ -108,8 +108,55 @@ class Generator(commands.Cog):
             # Send a message
             return await ctx.send(embed=embed)
 
-    @generate_command.error
-    async def generate_error(self, ctx, err):
+# Define the generate command
+    @commands.command(
+        name='textgenerate',
+        description='Generates a string of text',
+        aliases=['tgen']
+    )
+    async def tgenerate_command(self, ctx, *, arg: str):
+        if path.exists('./fonts/Minecraftia-Regular.ttf'):
+            # Tell the user that we are generating the image
+            message: discord.Message = await ctx.send(':arrows_counterclockwise: **Generating your rank...**')
+
+            # Create a new Image with a transparent background
+            img = Image.new('RGBA', (20 * len(arg), 40), color=(255, 0, 0, 0))
+
+            color = (255, 255, 255)
+            fnt = ImageFont.truetype('./fonts/Minecraftia-Regular.ttf', 20)
+
+            d = ImageDraw.Draw(img)
+            d.text((7, 5), f"{arg}", font=fnt, fill=color)
+
+            # Save the image
+            img.save('temp/generated_img.png')
+
+            # Delete the old message
+            await message.delete()
+
+            # Create a discord instance of the image
+            file = discord.File('temp/generated_img.png')
+
+            # Create an embed
+            embed = discord.Embed(colour=discord.Color.gold(),
+                                  title=f"Here's your image")
+            embed.set_image(url='attachment://generated_img.png')
+
+            # Send a message with the embed and the file
+            return await ctx.send(embed=embed, file=file)
+        else:
+            # Delete the old message
+            await message.delete()
+
+            # Create an embed
+            embed = discord.Embed(colour=discord.Color.red(
+            ), title=f"Error!", description="An error occured while generating your rank\nError: ``The file in: ./fonts/Minecraftia-Regular.ttf`` does not exist!")
+
+            # Send a message
+            return await ctx.send(embed=embed)
+
+    @rgenerate_command.error
+    async def rgenerate_error(self, ctx, err):
         if isinstance(err, commands.errors.MissingRequiredArgument):
             # Create an embed
             embed = discord.Embed(colour=discord.Color.red(
