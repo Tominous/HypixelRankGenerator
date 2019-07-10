@@ -21,7 +21,7 @@ bot.remove_command("help")
 logging.basicConfig(level=logging.INFO)
 
 # List of Cogs
-cogs = ['cogs.basic', 'cogs.generator']
+cogs = ['cogs.basic', 'cogs.generator', 'cogs.admin']
 
 
 @bot.event
