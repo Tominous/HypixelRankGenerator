@@ -5,6 +5,9 @@ import json
 import datetime
 import time
 
+# Stored for the bot uptime
+start_time = time.time()
+
 class Basic(commands.Cog):
 
     def __init__(self, bot):
@@ -62,6 +65,43 @@ class Basic(commands.Cog):
             ctx.author.avatar_url))  # Sets the footer of the embed
 
         await message.edit(content="", embed=embed)
+        return
+
+    # Define the info command
+    @commands.command(
+        name='info',
+        description='Displays info about the bot',
+        aliases=['i']
+    )
+    async def info_command(self, ctx):
+        # Calculate Uptime
+        current_time = time.time()
+        difference = int(round(current_time - start_time))
+
+         # Get number of members
+        members = 0
+        for guild in self.bot.guilds:
+            members = members + guild.member_count
+
+        embed = discord.Embed(colour=discord.Color.gold(
+        ), title=f"Information", description=f"Hi, I'm a bot that generates Hypixel Rank Images!\nMy prefix is ``{self.prefix}``")
+
+        embed.add_field(name="Uptime",
+                        value=f"{str(datetime.timedelta(seconds=difference))}")
+
+        embed.add_field(name="Developer",
+                        value="[ConorTheDev](https://twitter.com/ConorTheDev)", inline=False)
+        
+        embed.add_field(name="Users",
+                        value=f"{members:,d} users")
+
+        embed.add_field(name="Guilds",
+                        value=f"{len(self.bot.guilds)} guilds")
+
+        embed.set_footer(text=f"Requested by: {ctx.author.name}#{ctx.author.discriminator}", icon_url=str(
+            ctx.author.avatar_url))  # Sets the footer of the embed
+
+        await ctx.send(embed=embed)
         return
 
 
