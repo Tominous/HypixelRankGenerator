@@ -56,7 +56,7 @@ class Generator(commands.Cog):
                 color = (255, 255, 0)
                 fnt = ImageFont.truetype('./fonts/Minecraftia-Regular.ttf', 15)
                 currentRank = None
-
+                #Try Except.
                 try:
                     currentRank = self.ranks[arg]
                 except Exception as e:
